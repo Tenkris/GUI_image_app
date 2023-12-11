@@ -140,7 +140,7 @@ def main():
 				st.download_button( 
 					label="Download image", 
 					data=byte_im, 
-					file_name="watercolorsketch.png", 
+					file_name="pencilsketch.png", 
 					mime="image/png"
 				) 
 		if option == 'Convert to oil sketch':
@@ -166,7 +166,7 @@ def main():
 				st.download_button( 
 					label="Download image", 
 					data=byte_im, 
-					file_name="watercolorsketch.png", 
+					file_name="oilsketch.png", 
 					mime="image/png"
 				)
 		if option == 'Convert to Gaussian pencil sketch':
@@ -192,7 +192,7 @@ def main():
 				st.download_button( 
 					label="Download image", 
 					data=byte_im, 
-					file_name="watercolorsketch.png", 
+					file_name="Gaussianpencilsketch.png", 
 					mime="image/png"
 				) 
 		if option == 'Convert to Median pencil sketch':
@@ -218,7 +218,7 @@ def main():
 				st.download_button( 
 					label="Download image", 
 					data=byte_im, 
-					file_name="watercolorsketch.png", 
+					file_name="Medianpencilsketch.png", 
 					mime="image/png"
 				)
 if __name__ == '__main__': 
