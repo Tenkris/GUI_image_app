@@ -1,0 +1,15 @@
+[general]
+title = "GUI_image_sketching"
+
+[server]
+port = 8501
+
+[theme]
+primaryColor = "#FF5733"
+secondaryBackgroundColor = "#F5F5F5"
+
+[caching]
+enabled = true
+
+[runner]
+command = "streamlit run main.py"
