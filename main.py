@@ -59,6 +59,25 @@ def apply_advanced_oil_painting_effect(inp_img):
     combined_result = cv2.bitwise_and(stylized_effect, edges_inverted)
     return combined_result
 
+def apply_oil_painting_effect_with_canny(inp_img):
+    # Apply stylization to create the base for the oil painting effect
+    stylized_effect = cv2.stylization(inp_img, sigma_s=60, sigma_r=0.6)
+
+    # Convert to grayscale for edge detection
+    gray_image = cv2.cvtColor(stylized_effect, cv2.COLOR_BGR2GRAY)
+
+    # Use Canny edge detector instead of Laplacian
+    edges = cv2.Canny(gray_image, 100, 200)
+    edges_colored = cv2.cvtColor(edges, cv2.COLOR_GRAY2BGR)
+
+    # Invert the edge colors
+    edges_inverted = cv2.bitwise_not(edges_colored)
+
+    # Combine the stylized image with the inverted edges
+    combined_result = cv2.bitwise_and(stylized_effect, edges_inverted)
+
+    return combined_result
+
 # function to load an image 
 def load_an_image(image): 
 	img = Image.open(image) 
@@ -89,7 +108,8 @@ def main():
 							'Convert to pencil sketch', 
 							'Convert to oil sketch' , 
 							'Convert to Gaussian pencil sketch',
-							'Convert to Median pencil sketch'
+							'Convert to Median pencil sketch',
+							'Convert to oil painting with canny',
 							)) 
 		if option == 'Convert to water color sketch': 
 			image = Image.open(image_file) 
@@ -219,6 +239,32 @@ def main():
 					label="Download image", 
 					data=byte_im, 
 					file_name="Medianpencilsketch.png", 
+					mime="image/png"
+				)
+		if option == 'Convert to oil painting with canny':
+			image = Image.open(image_file) 
+			final_sketch = apply_oil_painting_effect_with_canny(np.array(image)) 
+			im_pil = Image.fromarray(final_sketch) 
+			
+			# two columns to display the original image 
+			# and the image after applying 
+			# pencil sketching effect 
+			col1, col2 = st.columns(2) 
+			with col1: 
+				st.header("Original Image") 
+				st.image(load_an_image(image_file), width=250) 
+
+			with col2: 
+				st.header("Oil Painting with Canny") 
+				st.image(im_pil, width=250) 
+				buf = BytesIO() 
+				img = im_pil 
+				img.save(buf, format="JPEG") 
+				byte_im = buf.getvalue() 
+				st.download_button( 
+					label="Download image", 
+					data=byte_im, 
+					file_name="oilpaintingwithcanny.png", 
 					mime="image/png"
 				)
 if __name__ == '__main__': 
